@@ -8,5 +8,13 @@
   "end": "2026-12-25",
   "sent": false
  },
- "doors": {}
+ "doors": {
+  "1": {
+   "text": "The first thing I thought the day I met you was…",
+   "media": [],
+   "link": "",
+   "vale": "",
+   "ready": false
+  }
+ }
 }
