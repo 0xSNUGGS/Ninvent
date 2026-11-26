@@ -37,10 +37,10 @@ const simBar = () => (store.demo || U.simulatedDay())
 const salir = () => { role = null; local.set('rol', null); goTo('#/'); };
 function nav() {
   return h('nav', { class: 'wrap nav no-print' },
-    h('a', { class: 'logo', href: '#/' }, 'Our ', h('b', {}, 'Advent')),
-    h('button', { class: 'link-btn', onclick: salir }, 'Log out'));
+    h('a', { class: 'logo', href: '#/' }, 'Our ', h('b', {}, 'Advent')));
 }
-function render(...kids) { app.replaceChildren(...kids.flat().filter(Boolean)); }
+// Every screen after signing in gets the same Log out button.
+function render(...kids) { app.replaceChildren(...[...kids.flat(), role && h('button', { class: 'logout no-print', onclick: salir }, 'Log out')].filter(Boolean)); }
 function fatal(msg) {
   render(simBar(), nav(), h('div', { class: 'narrow center', style: 'padding:60px 16px' },
     h('h2', {}, 'Oops…'), h('p', {}, msg), h('button', { class: 'btn', onclick: () => route() }, 'Try again')));
@@ -252,8 +252,7 @@ function viewEditar() {
           h('button', { class: 'btn small', onclick: openShare }, cal.sent ? 'Share' : 'Send it')))),
       h('main', { class: 'wrap no-print', style: 'padding-top:12px' },
         h('p', { class: 'muted', style: 'font-size:.9rem;margin:0;display:flex;justify-content:space-between' },
-          h('span', {}, h('span', { id: 'count' }), ' · ', h('span', { id: 'status' }, '✓ Saved')),
-          h('button', { class: 'link-btn', style: 'padding:0', onclick: salir }, 'Log out')),
+          h('span', {}, h('span', { id: 'count' }), ' · ', h('span', { id: 'status' }, '✓ Saved'))),
         h('div', { class: 'hint' }, cal.sent
           ? `🎁 ${cal.to} can already see it: each day you mark as ready opens on its date. Keep adding the rest as the days go by.`
           : `⏳ ${cal.to} can't see it yet. You don't need to finish everything: mark a few days as ready, press “Send it”, and keep going as December goes by.`),
@@ -536,8 +535,7 @@ function viewVer() {
         h('p', { class: 'muted', style: 'font-size:.85rem' }, `${N} doors · from ${U.fechaCorta(cal.start)} to ${U.fechaCorta(cal.end)}`)),
       grid,
       opened(N) ? h('p', { class: 'center', style: 'margin:26px 0' }, h('button', { class: 'btn ghost', onclick: drawMemory }, '📖 See your keepsake and save it as a PDF')) : null,
-      h('p', { class: 'center muted', style: 'margin:30px 0;font-size:.9rem' }, `With love, ${cal.from}`),
-      preview ? null : h('p', { class: 'center' }, h('button', { class: 'link-btn', onclick: salir }, 'Log out'))));
+      h('p', { class: 'center muted', style: 'margin:30px 0;font-size:.9rem' }, `With love, ${cal.from}`)));
   }
 
   function content(d) {
