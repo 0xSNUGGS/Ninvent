@@ -1,0 +1,12 @@
+{
+ "cal": {
+  "to": "Ninny",
+  "from": "Emma",
+  "wrap": "sobre",
+  "theme": "noche",
+  "start": "2026-12-01",
+  "end": "2026-12-25",
+  "sent": false
+ },
+ "doors": {}
+}
