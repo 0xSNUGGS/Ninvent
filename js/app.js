@@ -76,8 +76,7 @@ function viewGate() {
   const inp = h('input', { type: 'email', required: true, placeholder: 'you@email.com', 'aria-label': 'Your email', autocomplete: 'email' });
   const btn = h('button', { class: 'btn block', style: 'margin-top:10px' }, 'Enter');
   const form = h('form', { class: 'narrow' },
-    h('div', { style: 'font-size:3.2rem' }, '🎄'),
-    h('h1', {}, 'Our Advent'),
+    h('h1', {}, 'Welcome'),
     h('p', { class: 'muted' }, 'Type your email to come in.'),
     inp, btn);
   form.onsubmit = async (e) => {
@@ -484,12 +483,9 @@ const loadQr = () => (qrLib ||= new Promise((res, rej) => document.head.append(h
 // ---------- View (recipient, or the creator's preview) ----------
 function viewVer() {
   const preview = role === 'creadora';
-  if (!data || (!preview && !data.cal.sent)) {
+  if (!data || (!preview && (!data.cal.sent || U.today() < data.cal.start))) {
     return render(simBar(), h('div', { class: 'gift' }, h('div', { class: 'narrow' },
-      h('div', { style: 'font-size:3rem' }, '🤫'),
-      h('h2', {}, 'Your advent is still being prepared'),
-      h('p', { class: 'muted' }, 'Someone is wrapping something for you. Come back soon.'),
-      h('button', { class: 'link-btn', onclick: salir }, 'Log out'))));
+      h('h2', {}, 'It’s still being prepared, come back on December 1'))));
   }
   const { cal, doors } = data;
   const N = U.doorCount(cal);
