@@ -320,8 +320,13 @@ function viewEditar() {
     const valeInput = h('input', { type: 'text', maxlength: 300, placeholder: 'Breakfast in bed, a dinner date, a movie night…', disabled: !canEdit });
     valeInput.value = d.vale;
     valeInput.oninput = () => { d.vale = valeInput.value; changed(); };
-    const linkBox = h('div', { class: 'extra' + (d.link ? '' : ' hidden') }, h('label', { class: 'field' }, h('span', {}, '🔗 Link (your song, a video, a booking…)'), linkInput));
-    const valeBox = h('div', { class: 'extra' + (d.vale ? '' : ' hidden') }, h('label', { class: 'field' }, h('span', {}, '🎟 Voucher for…'), valeInput));
+    // An optional box with an × that empties it and hides it again.
+    const optBox = (key, label, input) => h('div', { class: 'extra' + (d[key] ? '' : ' hidden') },
+      h('div', { class: 'opt-head' }, h('span', {}, label),
+        canEdit && h('button', { type: 'button', class: 'opt-x', 'aria-label': `Remove ${label}`, onclick: () => { d[key] = ''; changed(); drawDoor(); } }, '×')),
+      input);
+    const linkBox = optBox('link', '🔗 Link (your song, a video, a booking…)', linkInput);
+    const valeBox = optBox('vale', '🎟 Voucher for…', valeInput);
     const recBox = h('div', { class: 'recorder hidden' });
 
     const pick = (accept, type, multiple) => {
