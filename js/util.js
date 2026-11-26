@@ -43,13 +43,13 @@ const ymd = (s) => { const [y, m, d] = s.split('-').map(Number); return [y, m - 
 const hoyParam = new URLSearchParams(location.search).get('hoy');
 if (hoyParam !== null) local.set('demo-hoy', /^\d{4}-\d{2}-\d{2}$/.test(hoyParam) ? hoyParam : null);
 export const simulatedDay = () => local.get('demo-hoy');
-export const today = () => simulatedDay() || iso(new Date());
-export const now = () => (simulatedDay() ? parseIso(simulatedDay()).getTime() + 12 * 36e5 : Date.now());
+// Days change at midnight in Cebu (Philippines, UTC+8), wherever the viewer is.
+const cebuDay = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Manila' }); // en-CA formats as YYYY-MM-DD
+export const today = () => simulatedDay() || cebuDay.format(new Date());
 
 export const doorCount = (cal) => diasEntre(cal.start, cal.end) + 1;
 export const doorDate = (cal, n) => addDays(cal.start, n - 1);
-export const openAt = (cal, n) => parseIso(doorDate(cal, n)); // a las 00:00 de su día
-export const isOpen = (cal, n) => now() >= openAt(cal, n).getTime();
+export const isOpen = (cal, n) => today() >= doorDate(cal, n); // from 00:00 Cebu time on its day
 
 const DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
